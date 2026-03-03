@@ -1,3 +1,7 @@
+// the link for male seems to be not working so we will have to fix that and we also have to make it work with https://sheetbest.com/ + google sheets so that it is easily upgradable by non technical people as well. the link to my drive is https://drive.google.com/drive/u/3/folders/1OB-3ldp3HwWrOnpfUMHcr8WlgKvGtiA8  or i have downloaded a copy of the file in my drive in my laptop as well it is in the 
+
+
+
 /*
  * ============================================================
  *  data.js — TSA IT Club Website Data
@@ -139,15 +143,15 @@ const siteData = {
   team: [
     // ── Executives ──
     {
-      name: "MR. Uddhav B. Shrestha",
+      name: "MR. Uddhav B. Shrestha <br> --aka-- Uttam Shrestha",
       role: "President",
       type: "exec",
       avatarInitial: "U",
       gradient: "linear-gradient(135deg,#3b82f6,#8b5cf6)",
       image: "",
       linkedin: "#",
-      github: "",
-      email: "#",
+      github: "https://github.com/uttam-shrestha/",
+      email: "uttam2066shrestha16@gmail.com",
       about:
         "Uttam is the visionary behind the TSA IT Club. He leads the executive board in organizing major events and fostering a strong tech community on campus.",
       skills: "Leadership, Project Management, Public Speaking",
