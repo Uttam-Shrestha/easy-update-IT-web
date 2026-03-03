@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Meet the executive board and team members of the TSA IT Club.">
+    <title>Team | TSA IT Club</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="loader-logo"><i class="fa-solid fa-code"></i></div>
+            <h2>TSA <span class="gradient-text">IT Club</span></h2>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Background -->
+    <div class="glow-container">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="TSA IT Club Logo" class="club-logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="team.html" class="active-page">Team</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li>
+                    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark/Light Mode">
+                        <i class="fa-solid fa-sun"></i>
+                    </button>
+                </li>
+                <li><a href="index.html#contact" class="btn-primary-sm">Join Us</a></li>
+            </ul>
+            <div class="hamburger" role="button" tabindex="0" aria-label="Toggle Navigation Menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Team Section -->
+    <section id="team" class="section page-hero">
+        <div class="section-header reveal">
+            <h2>Meet The <span class="gradient-text">Team</span></h2>
+            <p>The minds behind the TSA IT Club.</p>
+        </div>
+
+        <!-- Dynamic containers -->
+        <div id="executive-list" class="mobile-member-list reveal" style="max-width: 800px; margin: 0 auto 40px auto;"></div>
+        <h3 class="board-title reveal">Board Members</h3>
+        <div id="board-grid" class="board-grid reveal"></div>
+        <div id="board-list-mobile" class="mobile-board-list reveal"></div>
+    </section>
+
+    <!-- Single generic modal (will be filled dynamically) -->
+    <div class="modal-overlay" id="team-modal">
+        <div class="modal-content team-modal-content">
+            <button class="modal-close" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="team-modal-header">
+                <img src="" alt="" class="team-modal-img" id="modal-avatar">
+                <div class="team-modal-info">
+                    <h3 id="modal-name"></h3>
+                    <p class="role" id="modal-role"></p>
+                    <div class="social-links-modal" id="modal-social"></div>
+                </div>
+            </div>
+            <div class="team-modal-body">
+                <h4>About</h4>
+                <p id="modal-about"></p>
+                <h4>Skills</h4>
+                <p id="modal-skills"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-sections">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="TSA IT Club Logo" class="club-logo-img">
+                    <p>Innovating the future, one line of code at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="blog.html">Tech Insights</a></li>
+                        <li><a href="events.html">Upcoming Events</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 TSA IT Club. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-discord"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="toast-container"></div>
+    <button id="back-to-top" class="back-to-top" aria-label="Scroll back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script>
+        const TEAM_API = 'https://sheet.best/api/sheets/YOUR_ID/tabs/Team'; // REPLACE WITH YOUR ACTUAL URL
+
+        async function loadTeam() {
+            try {
+                const res = await fetch(TEAM_API);
+                const members = await res.json();
+                members.sort((a,b) => a.order - b.order);
+
+                const execs = members.filter(m => m.type === 'exec');
+                const boards = members.filter(m => m.type === 'board');
+
+                // Render executives
+                const execContainer = document.getElementById('executive-list');
+                execContainer.innerHTML = '<p class="mobile-list-label mobile-list-label--exec" style="text-align: left;">👑 Executives</p>';
+                execs.forEach(m => {
+                    const avatarHtml = m.image 
+                        ? `<img src="${m.image}" class="mobile-member-avatar" style="object-fit: cover;">`
+                        : `<div class="mobile-member-avatar" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">${m.avatarInitial}</div>`;
+                    execContainer.innerHTML += `
+                        <div class="mobile-member-row mobile-member-row--exec" 
+                             data-name="${m.name}" 
+                             data-role="${m.role}" 
+                             data-image="${m.image || ''}"
+                             data-avatar="${m.avatarInitial}"
+                             data-linkedin="${m.linkedin || ''}" 
+                             data-github="${m.github || ''}" 
+                             data-email="${m.email || ''}" 
+                             data-about="${m.about || ''}" 
+                             data-skills="${m.skills || ''}">
+                            ${avatarHtml}
+                            <div class="mobile-member-info"><strong>${m.name}</strong><span>${m.role}</span></div>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    `;
+                });
+
+                // Render board grid (desktop) – text only, no avatar
+                const boardGrid = document.getElementById('board-grid');
+                boardGrid.innerHTML = '';
+                boards.forEach(m => {
+                    boardGrid.innerHTML += `
+                        <div class="board-card glass-panel" 
+                             data-name="${m.name}" 
+                             data-role="${m.role}" 
+                             data-image="${m.image || ''}"
+                             data-avatar="${m.avatarInitial}"
+                             data-linkedin="${m.linkedin || ''}" 
+                             data-github="${m.github || ''}" 
+                             data-email="${m.email || ''}" 
+                             data-about="${m.about || ''}" 
+                             data-skills="${m.skills || ''}">
+                            <h4>${m.name}</h4>
+                            <p class="role-sm">${m.role}</p>
+                        </div>
+                    `;
+                });
+
+                // Render board mobile list
+                const boardMobile = document.getElementById('board-list-mobile');
+                boardMobile.innerHTML = '';
+                boards.forEach(m => {
+                    const avatarHtml = m.image 
+                        ? `<img src="${m.image}" class="mobile-member-avatar" style="object-fit: cover;">`
+                        : `<div class="mobile-member-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">${m.avatarInitial}</div>`;
+                    boardMobile.innerHTML += `
+                        <div class="mobile-member-row" 
+                             data-name="${m.name}" 
+                             data-role="${m.role}" 
+                             data-image="${m.image || ''}"
+                             data-avatar="${m.avatarInitial}"
+                             data-linkedin="${m.linkedin || ''}" 
+                             data-github="${m.github || ''}" 
+                             data-email="${m.email || ''}" 
+                             data-about="${m.about || ''}" 
+                             data-skills="${m.skills || ''}">
+                            ${avatarHtml}
+                            <div class="mobile-member-info"><strong>${m.name}</strong><span>${m.role}</span></div>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    `;
+                });
+
+                // Attach click handlers
+                attachModalTriggers();
+            } catch (error) {
+                console.error('Failed to load team', error);
+            }
+        }
+
+        function attachModalTriggers() {
+            const triggers = document.querySelectorAll('.mobile-member-row, .board-card');
+            triggers.forEach(el => {
+                el.addEventListener('click', () => {
+                    const name = el.dataset.name;
+                    const role = el.dataset.role;
+                    const image = el.dataset.image;
+                    const avatarInitial = el.dataset.avatar;
+                    const linkedin = el.dataset.linkedin;
+                    const github = el.dataset.github;
+                    const email = el.dataset.email;
+                    const about = el.dataset.about || 'No information provided.';
+                    const skills = el.dataset.skills || '—';
+
+                    // Fill modal
+                    document.getElementById('modal-name').innerText = name;
+                    document.getElementById('modal-role').innerText = role;
+                    document.getElementById('modal-about').innerText = about;
+                    document.getElementById('modal-skills').innerText = skills;
+
+                    // Set avatar: use image if provided, otherwise fallback to ui-avatars
+                    const avatarImg = document.getElementById('modal-avatar');
+                    if (image) {
+                        avatarImg.src = image;
+                    } else {
+                        // Use ui-avatars with name (or initial if name is long)
+                        avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&size=128`;
+                    }
+
+                    // Build social links
+                    let socialHtml = '';
+                    if (linkedin) socialHtml += `<a href="${linkedin}" target="_blank"><i class="fa-brands fa-linkedin"></i></a>`;
+                    if (github) socialHtml += `<a href="${github}" target="_blank"><i class="fa-brands fa-github"></i></a>`;
+                    if (email) socialHtml += `<a href="mailto:${email}"><i class="fa-solid fa-envelope"></i></a>`;
+                    document.getElementById('modal-social').innerHTML = socialHtml;
+
+                    // Show modal
+                    document.getElementById('team-modal').classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+        }
+
+        loadTeam();
+
+        // Modal close logic
+        document.querySelectorAll('.modal-close').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('team-modal').classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                document.getElementById('team-modal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | TSA IT Club</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Preloader, Background, Navigation -->
+    <div id="preloader">...</div>
+    <div class="glow-container">...</div>
+    <nav id="navbar">...</nav>
+
+    <section class="section page-hero">
+        <div class="section-header reveal">
+            <h2>Upcoming <span class="gradient-text">Events</span></h2>
+            <p>Join us to learn, build, and connect.</p>
+        </div>
+        <div id="events-container" class="events-container reveal"></div>
+    </section>
+
+    <footer>...</footer>
+    <div id="toast-container"></div>
+    <button id="back-to-top">...</button>
+
+    <script>
+        const EVENTS_API = 'https://sheet.best/api/sheets/YOUR_ID/tabs/Events'; // REPLACE
+
+        async function loadEvents() {
+            try {
+                const res = await fetch(EVENTS_API);
+                let events = await res.json();
+                events.sort((a,b) => a.order - b.order);
+
+                const container = document.getElementById('events-container');
+                container.innerHTML = events.map(e => `
+                    <div class="event-card glass-panel">
+                        <div class="event-date">
+                            <span class="month">${e.month}</span>
+                            <span class="day">${e.day}</span>
+                        </div>
+                        <div class="event-details">
+                            <h3>${e.title}</h3>
+                            <p>${e.description}</p>
+                            <span class="event-time"><i class="fa-regular fa-clock"></i> ${e.time}</span>
+                            <span class="event-location"><i class="fa-solid fa-location-dot"></i> ${e.location}</span>
+                        </div>
+                        ${e.registerLink ? `<a href="${e.registerLink}" target="_blank" class="btn-outline">Register</a>` : ''}
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load events', error);
+                document.getElementById('events-container').innerHTML = '<p>Unable to load events. Please try again later.</p>';
+            }
+        }
+        loadEvents();
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>

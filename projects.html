@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | TSA IT Club</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Preloader, Background, Navigation -->
+    <div id="preloader">...</div>
+    <div class="glow-container">...</div>
+    <nav id="navbar">...</nav>
+
+    <section id="projects" class="section page-hero">
+        <div class="section-header reveal">
+            <h2>Our <span class="gradient-text">Projects</span></h2>
+            <p>Real-world solutions built by our talented members.</p>
+        </div>
+        <div class="portfolio-filters reveal">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="web">Web Dev</button>
+            <button class="filter-btn" data-filter="app">App Dev</button>
+            <button class="filter-btn" data-filter="cyber">Cybersecurity</button>
+        </div>
+
+        <div id="projects-grid" class="projects-grid reveal-stagger"></div>
+    </section>
+
+    <!-- Generic Project Modal -->
+    <div class="modal-overlay" id="project-modal">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+            <i class="fa-solid fa-code modal-icon" id="project-modal-icon"></i>
+            <h3 id="project-modal-title"></h3>
+            <p id="project-modal-description"></p>
+            <h4>Tech Stack</h4>
+            <p id="project-modal-tech"></p>
+            <div class="hero-btns" id="project-modal-links"></div>
+        </div>
+    </div>
+
+    <footer>...</footer>
+    <div id="toast-container"></div>
+    <button id="back-to-top">...</button>
+
+    <script>
+        const PROJECTS_API = 'https://sheet.best/api/sheets/YOUR_ID/tabs/Projects'; // REPLACE
+
+        let allProjects = [];
+
+        async function loadProjects() {
+            try {
+                const res = await fetch(PROJECTS_API);
+                allProjects = await res.json();
+                allProjects.sort((a,b) => a.order - b.order);
+                renderProjects('all');
+            } catch (error) {
+                console.error('Failed to load projects', error);
+            }
+        }
+
+        function renderProjects(filter) {
+            const grid = document.getElementById('projects-grid');
+            const filtered = filter === 'all' ? allProjects : allProjects.filter(p => p.category === filter);
+            grid.innerHTML = filtered.map(p => `
+                <div class="project-card glass-panel" data-category="${p.category}" data-title="${p.title}" data-description="${p.description}" data-tech="${p.techStack}" data-github="${p.githubLink || ''}" data-image="${p.image || ''}">
+                    <img src="${p.image || 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80'}" alt="${p.title}" class="project-img">
+                    <div class="project-overlay">
+                        <div class="project-tags">
+                            <span class="tag">${p.category}</span>
+                        </div>
+                        <h3>${p.title}</h3>
+                        <p>${p.description}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Re-attach filter listeners (already done below) and modal triggers
+            attachProjectModalTriggers();
+        }
+
+        function attachProjectModalTriggers() {
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const title = card.dataset.title;
+                    const desc = card.dataset.description;
+                    const tech = card.dataset.tech;
+                    const github = card.dataset.github;
+
+                    document.getElementById('project-modal-title').innerHTML = `${title} <span class="gradient-text">Project</span>`;
+                    document.getElementById('project-modal-description').innerText = desc;
+                    document.getElementById('project-modal-tech').innerText = tech || 'Not specified';
+                    
+                    let linksHtml = '';
+                    if (github) linksHtml += `<a href="${github}" target="_blank" class="btn-primary">View GitHub <i class="fa-brands fa-github"></i></a>`;
+                    document.getElementById('project-modal-links').innerHTML = linksHtml;
+
+                    document.getElementById('project-modal').classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+        }
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderProjects(btn.dataset.filter);
+            });
+        });
+
+        loadProjects();
+
+        // Modal close
+        document.querySelectorAll('.modal-close').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('project-modal').classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                document.getElementById('project-modal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>

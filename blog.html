@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | TSA IT Club</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Preloader, Background, Navigation -->
+    <div id="preloader">...</div>
+    <div class="glow-container">...</div>
+    <nav id="navbar">...</nav>
+
+    <section id="blog" class="section page-hero">
+        <div class="section-header reveal">
+            <h2>Tech <span class="gradient-text">Insights</span></h2>
+            <p>Articles, tutorials, and news from our club members.</p>
+        </div>
+        <div id="blog-grid" class="blog-grid reveal-stagger"></div>
+    </section>
+
+    <footer>...</footer>
+    <div id="toast-container"></div>
+    <button id="back-to-top">...</button>
+
+    <script>
+        const BLOG_API = 'https://sheet.best/api/sheets/YOUR_ID/tabs/Blog'; // REPLACE
+
+        async function loadBlog() {
+            try {
+                const res = await fetch(BLOG_API);
+                let posts = await res.json();
+                posts.sort((a,b) => a.order - b.order);
+
+                const grid = document.getElementById('blog-grid');
+                grid.innerHTML = posts.map(p => `
+                    <article class="blog-card glass-panel">
+                        <div class="blog-img-container">
+                            <img src="${p.image}" alt="${p.title}">
+                            <span class="blog-tag">${p.category}</span>
+                        </div>
+                        <div class="blog-body">
+                            <span class="blog-date">${p.date}</span>
+                            <h3>${p.title}</h3>
+                            <p>${p.excerpt}</p>
+                            <a href="${p.link}" target="_blank" class="btn-text">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load blog', error);
+            }
+        }
+        loadBlog();
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
