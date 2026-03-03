@@ -139,7 +139,7 @@ const siteData = {
   team: [
     // ── Executives ──
     {
-      name: "MR. Uttam B. Shrestha",
+      name: "MR. Uddhav B. Shrestha",
       role: "President",
       type: "exec",
       avatarInitial: "U",
