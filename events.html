@@ -1,65 +1,179 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Upcoming events, workshops, and hackathons by the TSA IT Club."
+    />
     <title>Events | TSA IT Club</title>
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <!-- Preloader, Background, Navigation -->
-    <div id="preloader">...</div>
-    <div class="glow-container">...</div>
-    <nav id="navbar">...</nav>
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
 
-    <section class="section page-hero">
-        <div class="section-header reveal">
-            <h2>Upcoming <span class="gradient-text">Events</span></h2>
-            <p>Join us to learn, build, and connect.</p>
+  <body>
+    <!-- Preloader -->
+    <div id="preloader">
+      <div class="loader-content">
+        <div class="loader-logo"><i class="fa-solid fa-code"></i></div>
+        <h2>TSA <span class="gradient-text">IT Club</span></h2>
+        <div class="loader-bar"></div>
+      </div>
+    </div>
+
+    <!-- Background -->
+    <div class="glow-container">
+      <div class="glow-orb orb-1"></div>
+      <div class="glow-orb orb-2"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+      <div class="nav-content">
+        <a href="index.html" class="logo">
+          <img src="logo.png" alt="TSA IT Club Logo" class="club-logo-img" />
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="events.html" class="active-page">Events</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li>
+            <button
+              id="theme-toggle"
+              class="theme-btn"
+              aria-label="Toggle Dark/Light Mode"
+            >
+              <i class="fa-solid fa-sun"></i>
+            </button>
+          </li>
+          <li>
+            <a href="index.html#contact" class="btn-primary-sm">Join Us</a>
+          </li>
+        </ul>
+        <div
+          class="hamburger"
+          role="button"
+          tabindex="0"
+          aria-label="Toggle Navigation Menu"
+        >
+          <i class="fa-solid fa-bars"></i>
         </div>
-        <div id="events-container" class="events-container reveal"></div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="section page-hero">
+      <div class="section-header reveal">
+        <h2>Upcoming <span class="gradient-text">Events</span></h2>
+        <p>Join us to learn, build, and connect.</p>
+      </div>
+      <div id="events-container" class="events-container reveal"></div>
     </section>
 
-    <footer>...</footer>
+    <footer>
+      <div class="footer-content">
+        <div class="footer-sections">
+          <div class="footer-brand">
+            <img src="logo.png" alt="TSA IT Club Logo" class="club-logo-img" />
+            <p>Innovating the future, one line of code at a time.</p>
+          </div>
+          <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="blog.html">Tech Insights</a></li>
+              <li><a href="events.html">Upcoming Events</a></li>
+              <li><a href="resources.html">Resources</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 TSA IT Club. All rights reserved.</p>
+          <div class="footer-social">
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-discord"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Toast Container -->
     <div id="toast-container"></div>
-    <button id="back-to-top">...</button>
 
+    <!-- Back to Top -->
+    <button
+      id="back-to-top"
+      class="back-to-top"
+      aria-label="Scroll back to top"
+    >
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script src="data.js"></script>
     <script>
-        const EVENTS_API = 'https://sheet.best/api/sheets/YOUR_ID/tabs/Events'; // REPLACE
+      // ── Render events from data.js ──
+      document.addEventListener("DOMContentLoaded", function () {
+        const container = document.getElementById("events-container");
+        if (!container || typeof siteData === "undefined") return;
 
-        async function loadEvents() {
-            try {
-                const res = await fetch(EVENTS_API);
-                let events = await res.json();
-                events.sort((a,b) => a.order - b.order);
-
-                const container = document.getElementById('events-container');
-                container.innerHTML = events.map(e => `
-                    <div class="event-card glass-panel">
-                        <div class="event-date">
-                            <span class="month">${e.month}</span>
-                            <span class="day">${e.day}</span>
-                        </div>
-                        <div class="event-details">
-                            <h3>${e.title}</h3>
-                            <p>${e.description}</p>
-                            <span class="event-time"><i class="fa-regular fa-clock"></i> ${e.time}</span>
-                            <span class="event-location"><i class="fa-solid fa-location-dot"></i> ${e.location}</span>
-                        </div>
-                        ${e.registerLink ? `<a href="${e.registerLink}" target="_blank" class="btn-outline">Register</a>` : ''}
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.error('Failed to load events', error);
-                document.getElementById('events-container').innerHTML = '<p>Unable to load events. Please try again later.</p>';
-            }
+        const events = siteData.events || [];
+        if (events.length === 0) {
+          container.innerHTML =
+            '<p style="text-align:center;opacity:0.7;">No events planned currently.</p>';
+          return;
         }
-        loadEvents();
-    </script>
 
+        container.innerHTML = events
+          .map(function (e) {
+            const registerBtn = e.registerLink
+              ? '<a href="' +
+                e.registerLink +
+                '" target="_blank" class="btn-outline">Register</a>'
+              : "";
+            return (
+              '<div class="event-card glass-panel">' +
+              '<div class="event-date">' +
+              '<span class="month">' +
+              e.month +
+              "</span>" +
+              '<span class="day">' +
+              e.day +
+              "</span>" +
+              "</div>" +
+              '<div class="event-details">' +
+              "<h3>" +
+              e.title +
+              "</h3>" +
+              "<p>" +
+              e.description +
+              "</p>" +
+              '<span class="event-time"><i class="fa-regular fa-clock"></i> ' +
+              e.time +
+              "</span>" +
+              '<span class="event-location"><i class="fa-solid fa-location-dot"></i> ' +
+              e.location +
+              "</span>" +
+              "</div>" +
+              registerBtn +
+              "</div>"
+            );
+          })
+          .join("");
+      });
+    </script>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

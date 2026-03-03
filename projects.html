@@ -1,136 +1,279 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Projects built by TSA IT Club members — web apps, cybersecurity tools, and more."
+    />
     <title>Projects | TSA IT Club</title>
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <!-- Preloader, Background, Navigation -->
-    <div id="preloader">...</div>
-    <div class="glow-container">...</div>
-    <nav id="navbar">...</nav>
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
 
+  <body>
+    <!-- Preloader -->
+    <div id="preloader">
+      <div class="loader-content">
+        <div class="loader-logo"><i class="fa-solid fa-code"></i></div>
+        <h2>TSA <span class="gradient-text">IT Club</span></h2>
+        <div class="loader-bar"></div>
+      </div>
+    </div>
+
+    <!-- Background -->
+    <div class="glow-container">
+      <div class="glow-orb orb-1"></div>
+      <div class="glow-orb orb-2"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+      <div class="nav-content">
+        <a href="index.html" class="logo">
+          <img src="logo.png" alt="TSA IT Club Logo" class="club-logo-img" />
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="projects.html" class="active-page">Projects</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li>
+            <button
+              id="theme-toggle"
+              class="theme-btn"
+              aria-label="Toggle Dark/Light Mode"
+            >
+              <i class="fa-solid fa-sun"></i>
+            </button>
+          </li>
+          <li>
+            <a href="index.html#contact" class="btn-primary-sm">Join Us</a>
+          </li>
+        </ul>
+        <div
+          class="hamburger"
+          role="button"
+          tabindex="0"
+          aria-label="Toggle Navigation Menu"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Projects Section -->
     <section id="projects" class="section page-hero">
-        <div class="section-header reveal">
-            <h2>Our <span class="gradient-text">Projects</span></h2>
-            <p>Real-world solutions built by our talented members.</p>
-        </div>
-        <div class="portfolio-filters reveal">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="web">Web Dev</button>
-            <button class="filter-btn" data-filter="app">App Dev</button>
-            <button class="filter-btn" data-filter="cyber">Cybersecurity</button>
-        </div>
+      <div class="section-header reveal">
+        <h2>Our <span class="gradient-text">Projects</span></h2>
+        <p>Real-world solutions built by our talented members.</p>
+      </div>
+      <div class="portfolio-filters reveal">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="web">Web Dev</button>
+        <button class="filter-btn" data-filter="app">App Dev</button>
+        <button class="filter-btn" data-filter="cyber">Cybersecurity</button>
+      </div>
 
-        <div id="projects-grid" class="projects-grid reveal-stagger"></div>
+      <div id="projects-grid" class="projects-grid reveal-stagger"></div>
     </section>
 
     <!-- Generic Project Modal -->
     <div class="modal-overlay" id="project-modal">
-        <div class="modal-content">
-            <button class="modal-close" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
-            <i class="fa-solid fa-code modal-icon" id="project-modal-icon"></i>
-            <h3 id="project-modal-title"></h3>
-            <p id="project-modal-description"></p>
-            <h4>Tech Stack</h4>
-            <p id="project-modal-tech"></p>
-            <div class="hero-btns" id="project-modal-links"></div>
-        </div>
+      <div class="modal-content">
+        <button class="modal-close" aria-label="Close Modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <i class="fa-solid fa-code modal-icon" id="project-modal-icon"></i>
+        <h3 id="project-modal-title"></h3>
+        <p id="project-modal-description"></p>
+        <h4>Tech Stack</h4>
+        <p id="project-modal-tech"></p>
+        <div class="hero-btns" id="project-modal-links"></div>
+      </div>
     </div>
 
-    <footer>...</footer>
+    <footer>
+      <div class="footer-content">
+        <div class="footer-sections">
+          <div class="footer-brand">
+            <img src="logo.png" alt="TSA IT Club Logo" class="club-logo-img" />
+            <p>Innovating the future, one line of code at a time.</p>
+          </div>
+          <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="blog.html">Tech Insights</a></li>
+              <li><a href="events.html">Upcoming Events</a></li>
+              <li><a href="resources.html">Resources</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 TSA IT Club. All rights reserved.</p>
+          <div class="footer-social">
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-discord"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
     <div id="toast-container"></div>
-    <button id="back-to-top">...</button>
 
+    <button
+      id="back-to-top"
+      class="back-to-top"
+      aria-label="Scroll back to top"
+    >
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script src="data.js"></script>
     <script>
-        const PROJECTS_API = 'https://sheet.best/api/sheets/YOUR_ID/tabs/Projects'; // REPLACE
+      // ── Render projects from data.js ──
+      let allProjects = [];
 
-        let allProjects = [];
+      function renderProjects(filter) {
+        const grid = document.getElementById("projects-grid");
+        const filtered =
+          filter === "all"
+            ? allProjects
+            : allProjects.filter(function (p) {
+                return p.category === filter;
+              });
 
-        async function loadProjects() {
-            try {
-                const res = await fetch(PROJECTS_API);
-                allProjects = await res.json();
-                allProjects.sort((a,b) => a.order - b.order);
-                renderProjects('all');
-            } catch (error) {
-                console.error('Failed to load projects', error);
-            }
-        }
+        grid.innerHTML = filtered
+          .map(function (p) {
+            const defaultImg =
+              "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80";
+            const tagsHtml = (p.tags || [])
+              .map(function (t) {
+                return '<span class="tag">' + t + "</span>";
+              })
+              .join("");
+            return (
+              '<div class="project-card glass-panel" data-category="' +
+              p.category +
+              '"' +
+              ' data-title="' +
+              p.title +
+              '"' +
+              ' data-description="' +
+              (p.modalDescription || p.description) +
+              '"' +
+              ' data-tech="' +
+              (p.techStack || "") +
+              '"' +
+              ' data-github="' +
+              (p.githubLink || "") +
+              '"' +
+              ' data-icon="' +
+              (p.modalIcon || "fa-solid fa-code") +
+              '">' +
+              '<img src="' +
+              (p.image || defaultImg) +
+              '" alt="' +
+              p.title +
+              '" class="project-img">' +
+              '<div class="project-overlay">' +
+              '<div class="project-tags">' +
+              tagsHtml +
+              "</div>" +
+              "<h3>" +
+              p.title +
+              "</h3>" +
+              "<p>" +
+              p.description +
+              "</p>" +
+              "</div>" +
+              "</div>"
+            );
+          })
+          .join("");
 
-        function renderProjects(filter) {
-            const grid = document.getElementById('projects-grid');
-            const filtered = filter === 'all' ? allProjects : allProjects.filter(p => p.category === filter);
-            grid.innerHTML = filtered.map(p => `
-                <div class="project-card glass-panel" data-category="${p.category}" data-title="${p.title}" data-description="${p.description}" data-tech="${p.techStack}" data-github="${p.githubLink || ''}" data-image="${p.image || ''}">
-                    <img src="${p.image || 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80'}" alt="${p.title}" class="project-img">
-                    <div class="project-overlay">
-                        <div class="project-tags">
-                            <span class="tag">${p.category}</span>
-                        </div>
-                        <h3>${p.title}</h3>
-                        <p>${p.description}</p>
-                    </div>
-                </div>
-            `).join('');
+        attachProjectModalTriggers();
+      }
 
-            // Re-attach filter listeners (already done below) and modal triggers
-            attachProjectModalTriggers();
-        }
+      function attachProjectModalTriggers() {
+        document.querySelectorAll(".project-card").forEach(function (card) {
+          card.addEventListener("click", function () {
+            var title = card.dataset.title;
+            var desc = card.dataset.description;
+            var tech = card.dataset.tech;
+            var github = card.dataset.github;
+            var icon = card.dataset.icon;
 
-        function attachProjectModalTriggers() {
-            document.querySelectorAll('.project-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const title = card.dataset.title;
-                    const desc = card.dataset.description;
-                    const tech = card.dataset.tech;
-                    const github = card.dataset.github;
+            document.getElementById("project-modal-icon").className =
+              icon + " modal-icon";
+            document.getElementById("project-modal-title").innerHTML =
+              title + ' <span class="gradient-text">Project</span>';
+            document.getElementById("project-modal-description").innerText =
+              desc;
+            document.getElementById("project-modal-tech").innerText =
+              tech || "Not specified";
 
-                    document.getElementById('project-modal-title').innerHTML = `${title} <span class="gradient-text">Project</span>`;
-                    document.getElementById('project-modal-description').innerText = desc;
-                    document.getElementById('project-modal-tech').innerText = tech || 'Not specified';
-                    
-                    let linksHtml = '';
-                    if (github) linksHtml += `<a href="${github}" target="_blank" class="btn-primary">View GitHub <i class="fa-brands fa-github"></i></a>`;
-                    document.getElementById('project-modal-links').innerHTML = linksHtml;
+            var linksHtml = "";
+            if (github)
+              linksHtml +=
+                '<a href="' +
+                github +
+                '" target="_blank" class="btn-primary">View GitHub <i class="fa-brands fa-github"></i></a>';
+            document.getElementById("project-modal-links").innerHTML =
+              linksHtml;
 
-                    document.getElementById('project-modal').classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                });
-            });
-        }
-
-        // Filter buttons
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                renderProjects(btn.dataset.filter);
-            });
+            document.getElementById("project-modal").classList.add("active");
+            document.body.style.overflow = "hidden";
+          });
         });
+      }
 
-        loadProjects();
+      // Filter buttons
+      document.querySelectorAll(".filter-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          document.querySelectorAll(".filter-btn").forEach(function (b) {
+            b.classList.remove("active");
+          });
+          btn.classList.add("active");
+          renderProjects(btn.dataset.filter);
+        });
+      });
 
-        // Modal close
-        document.querySelectorAll('.modal-close').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('project-modal').classList.remove('active');
-                document.body.style.overflow = '';
-            });
+      // Load projects from data.js
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof siteData !== "undefined") {
+          allProjects = siteData.projects || [];
+          renderProjects("all");
+        }
+      });
+
+      // Modal close
+      document.querySelectorAll(".modal-close").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          document.getElementById("project-modal").classList.remove("active");
+          document.body.style.overflow = "";
         });
-        window.addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal-overlay')) {
-                document.getElementById('project-modal').classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
+      });
+      window.addEventListener("click", function (e) {
+        if (e.target.classList.contains("modal-overlay")) {
+          document.getElementById("project-modal").classList.remove("active");
+          document.body.style.overflow = "";
+        }
+      });
     </script>
-
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
