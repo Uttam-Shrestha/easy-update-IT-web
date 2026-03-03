@@ -326,8 +326,8 @@ const siteData = {
 
   // ╔════════════════════════════════════════════════════════╗
   // ║  RESOURCES                                             ║
-  // ║  Fields: title, description, icon (FontAwesome class),║
-  // ║          downloadLink                                 ║
+  // ║  Fields: title, description, icon (FontAwesome class), ║
+  // ║          downloadLink                                  ║
   // ╚════════════════════════════════════════════════════════╝
   resources: [
     {
