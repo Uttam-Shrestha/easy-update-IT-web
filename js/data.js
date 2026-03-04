@@ -29,36 +29,36 @@ const siteData = {
   // ║          description, time, location, registerLink    ║
   // ╚════════════════════════════════════════════════════════╝
   events: [
-    {
-      title: "Annual Hackathon 2026",
-      date: "April 15-17, 2026",
-      time: "Starts at 10:00 AM",
-      location: "Main Auditorium, TSA College",
-      description:
-        "Join us for our biggest event of the year! A 48-hour coding marathon where you form teams, solve real-world problems, and build amazing projects from scratch. Mentors will be available, and free food is provided.",
-      registrationLink: "#register-hackathon",
-      isOpen: true, // Set to false to disable the register button
-    },
-    {
-      title: "Intro to React Workshop",
-      date: "May 5, 2026",
-      time: "2:00 PM - 5:00 PM",
-      location: "Computer Lab 3",
-      description:
-        "A beginner-friendly workshop deep diving into modern web development with React. You'll learn about components, state, hooks, and build your first functioning single-page application.",
-      registrationLink: "#register-react",
-      isOpen: true,
-    },
-    {
-      title: "Cybersecurity CTF",
-      date: "May 20, 2026",
-      time: "9:00 AM - 6:00 PM",
-      location: "Virtual & Lab 1",
-      description:
-        "Test your security skills in our Capture The Flag competition. Challenges range from web exploitation to reverse engineering. Prizes for the top 3 teams.",
-      registrationLink: "#register-ctf",
-      isOpen: false, // E.g., Registration closed
-    },
+    // {
+    //   title: "Annual Hackathon 2026",
+    //   date: "April 15-17, 2026",
+    //   time: "Starts at 10:00 AM",
+    //   location: "Main Auditorium, TSA College",
+    //   description:
+    //     "Join us for our biggest event of the year! A 48-hour coding marathon where you form teams, solve real-world problems, and build amazing projects from scratch. Mentors will be available, and free food is provided.",
+    //   registrationLink: "https://uttam-shrestha.github.io/easy-update-IT-web/index.html#contact",
+    //   isOpen: true, // Set to false to disable the register button
+    // },
+    // {
+    //   title: "Intro to React Workshop",
+    //   date: "May 5, 2026",
+    //   time: "2:00 PM - 5:00 PM",
+    //   location: "Computer Lab 3",
+    //   description:
+    //     "A beginner-friendly workshop deep diving into modern web development with React. You'll learn about components, state, hooks, and build your first functioning single-page application.",
+    //   registrationLink: "#register-react",
+    //   isOpen: true,
+    // },
+    // {
+    //   title: "Cybersecurity CTF",
+    //   date: "May 20, 2026",
+    //   time: "9:00 AM - 6:00 PM",
+    //   location: "Virtual & Lab 1",
+    //   description:
+    //     "Test your security skills in our Capture The Flag competition. Challenges range from web exploitation to reverse engineering. Prizes for the top 3 teams.",
+    //   registrationLink: "#register-ctf",
+    //   isOpen: false, // E.g., Registration closed
+    // },
   ],
 
   // ╔════════════════════════════════════════════════════════╗

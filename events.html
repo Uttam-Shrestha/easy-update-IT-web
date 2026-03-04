@@ -160,8 +160,11 @@
 
           container.innerHTML = events
             .map(function (e, index) {
+              const regLink = e.registerLink || e.registrationLink || '';
               const registerBtn = e.isOpen === true || String(e.isOpen).toLowerCase() === 'true'
-                ? '<a href="' + (e.registrationLink || '#') + '" target="_blank" class="event-btn">Register Now</a>'
+                ? (regLink
+                    ? '<a href="' + regLink + '" target="_blank" class="event-btn">Register Now</a>'
+                    : '<span class="event-btn disabled">Registration Closed</span>')
                 : '<span class="event-btn disabled">Registration Closed</span>';
 
               // Ensure safe access + smart date formatting
