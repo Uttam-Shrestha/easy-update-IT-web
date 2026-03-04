@@ -114,6 +114,14 @@
       </div>
     </div>
 
+    <!-- Image Expansion Lightbox -->
+    <div class="modal-overlay" id="lightbox-modal" style="z-index: 2000; background: rgba(0,0,0,0.9);">
+      <button class="lightbox-close" aria-label="Close Lightbox" style="position: absolute; top: 20px; right: 30px; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; text-shadow: 0 0 10px rgba(0,0,0,0.5);">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img src="" alt="Full Screen Profile" id="lightbox-img" style="max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); cursor: zoom-out;">
+    </div>
+
     <footer>
       <div class="footer-content">
         <div class="footer-sections">
@@ -179,11 +187,13 @@
             execContainer.innerHTML = '<p class="mobile-list-label mobile-list-label--exec" style="text-align:left;">\uD83D\uDC51 Executives</p>';
             execs.forEach(function (m) {
               var avatarHtml = m.image
-                ? '<img src="' + m.image + '" class="mobile-member-avatar" style="object-fit:cover;">'
+                ? '<img src="' + m.image + '" class="mobile-member-avatar" style="object-fit:cover; aspect-ratio:1/1;">'
                 : '<div class="mobile-member-avatar" style="background:' + (m.gradient || "#3b82f6") + '">' + (m.avatarInitial || "?") + "</div>";
+              var nicknameHtml = m.nickname ? '<br><span class="member-nickname">aka ' + m.nickname + '</span>' : '';
               execContainer.innerHTML +=
                 '<div class="mobile-member-row mobile-member-row--exec"' +
                 ' data-name="'     + (m.name     || "") + '"' +
+                ' data-nickname="' + (m.nickname || "") + '"' +
                 ' data-role="'     + (m.role     || "") + '"' +
                 ' data-image="'    + (m.image    || "") + '"' +
                 ' data-avatar="'   + (m.avatarInitial || "") + '"' +
@@ -193,7 +203,7 @@
                 ' data-about="'    + (m.about    || "") + '"' +
                 ' data-skills="'   + (m.skills   || "") + '">' +
                 avatarHtml +
-                '<div class="mobile-member-info"><strong>' + (m.name || "?") + "</strong><span>" + (m.role || "") + "</span></div>" +
+                '<div class="mobile-member-info"><strong>' + (m.name || "?") + nicknameHtml + "</strong><span>" + (m.role || "") + "</span></div>" +
                 '<i class="fa-solid fa-chevron-right"></i>' +
                 "</div>";
             });
@@ -208,9 +218,11 @@
           } else {
             boardGrid.innerHTML = "";
             boards.forEach(function (m) {
+              var nicknameHtml = m.nickname ? '<br><span class="member-nickname">aka ' + m.nickname + '</span>' : '';
               boardGrid.innerHTML +=
                 '<div class="board-card glass-panel"' +
                 ' data-name="'     + (m.name     || "") + '"' +
+                ' data-nickname="' + (m.nickname || "") + '"' +
                 ' data-role="'     + (m.role     || "") + '"' +
                 ' data-image="'    + (m.image    || "") + '"' +
                 ' data-avatar="'   + (m.avatarInitial || "") + '"' +
@@ -219,7 +231,7 @@
                 ' data-email="'    + (m.email    || "") + '"' +
                 ' data-about="'    + (m.about    || "") + '"' +
                 ' data-skills="'   + (m.skills   || "") + '">' +
-                "<h4>" + (m.name || "?") + "</h4>" +
+                "<h4>" + (m.name || "?") + nicknameHtml + "</h4>" +
                 '<p class="role-sm">' + (m.role || "") + "</p>" +
                 "</div>";
             });
@@ -233,11 +245,13 @@
             boardMobile.innerHTML = "";
             boards.forEach(function (m) {
               var avatarHtml = m.image
-                ? '<img src="' + m.image + '" class="mobile-member-avatar" style="object-fit:cover;">'
+                ? '<img src="' + m.image + '" class="mobile-member-avatar" style="object-fit:cover; aspect-ratio:1/1;">'
                 : '<div class="mobile-member-avatar" style="background:' + (m.gradient || "#3b82f6") + '">' + (m.avatarInitial || "?") + "</div>";
+              var nicknameHtml = m.nickname ? '<br><span class="member-nickname">aka ' + m.nickname + '</span>' : '';
               boardMobile.innerHTML +=
                 '<div class="mobile-member-row"' +
                 ' data-name="'     + (m.name     || "") + '"' +
+                ' data-nickname="' + (m.nickname || "") + '"' +
                 ' data-role="'     + (m.role     || "") + '"' +
                 ' data-image="'    + (m.image    || "") + '"' +
                 ' data-avatar="'   + (m.avatarInitial || "") + '"' +
@@ -247,7 +261,7 @@
                 ' data-about="'    + (m.about    || "") + '"' +
                 ' data-skills="'   + (m.skills   || "") + '">' +
                 avatarHtml +
-                '<div class="mobile-member-info"><strong>' + (m.name || "?") + "</strong><span>" + (m.role || "") + "</span></div>" +
+                '<div class="mobile-member-info"><strong>' + (m.name || "?") + nicknameHtml + "</strong><span>" + (m.role || "") + "</span></div>" +
                 '<i class="fa-solid fa-chevron-right"></i>' +
                 "</div>";
             });
@@ -263,6 +277,7 @@
         triggers.forEach(function (el) {
           el.addEventListener("click", function () {
             var name     = el.dataset.name;
+            var nickname = el.dataset.nickname;
             var role     = el.dataset.role;
             var image    = el.dataset.image;
             var linkedin = el.dataset.linkedin;
@@ -271,7 +286,8 @@
             var about    = el.dataset.about  || "No information provided.";
             var skills   = el.dataset.skills || "—";
 
-            document.getElementById("modal-name").innerText   = name;
+            var displayName = nickname ? name + " <br><span class='member-nickname'>aka " + nickname + "</span>" : name;
+            document.getElementById("modal-name").innerHTML   = displayName;
             document.getElementById("modal-role").innerText   = role;
             document.getElementById("modal-about").innerText  = about;
             document.getElementById("modal-skills").innerText = skills;
@@ -305,9 +321,47 @@
       });
       window.addEventListener("click", function (e) {
         if (e.target.classList.contains("modal-overlay")) {
-          document.getElementById("team-modal").classList.remove("active");
-          document.body.style.overflow = "";
+          // If it's the lightbox, close lightbox
+          if (e.target.id === "lightbox-modal") {
+            document.getElementById("lightbox-modal").classList.remove("active");
+            // only restore scroll if team-modal isn't active
+            if (!document.getElementById("team-modal").classList.contains("active")) {
+                document.body.style.overflow = "";
+            }
+          } else {
+            document.getElementById("team-modal").classList.remove("active");
+            document.body.style.overflow = "";
+          }
         }
+      });
+
+      // Lightbox logic
+      var modalAvatar = document.getElementById("modal-avatar");
+      
+      modalAvatar.addEventListener("mouseover", function() {
+          if (this.src && !this.src.includes("ui-avatars.com")) {
+              this.style.cursor = "zoom-in";
+          } else {
+              this.style.cursor = "default";
+          }
+      });
+
+      modalAvatar.addEventListener("click", function() {
+          var currentSrc = this.src;
+          // Don't expand if it's the auto-generated UI Avatar
+          if (currentSrc && !currentSrc.includes("ui-avatars.com")) {
+              document.getElementById("lightbox-img").src = currentSrc;
+              document.getElementById("lightbox-modal").classList.add("active");
+              document.body.style.overflow = "hidden";
+          }
+      });
+
+      document.querySelector(".lightbox-close").addEventListener("click", function() {
+          document.getElementById("lightbox-modal").classList.remove("active");
+          // Only restore completely if team modal isn't also open
+          if (!document.getElementById("team-modal").classList.contains("active")) {
+            document.body.style.overflow = "";
+          }
       });
     </script>
     <script src="js/script.js"></script>

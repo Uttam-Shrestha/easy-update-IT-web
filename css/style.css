@@ -836,6 +836,27 @@ body.light-theme nav.scrolled {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
 }
 
+.member-nickname {
+    display: inline-block;
+    font-size: 0.8em;
+    font-style: italic;
+    color: var(--primary);
+    position: relative;
+    margin-top: 4px;
+    opacity: 0.9;
+}
+
+.member-nickname::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--primary);
+    opacity: 0.6;
+}
+
 .team-img img {
     width: 100%;
     height: 100%;
@@ -938,11 +959,27 @@ body.light-theme nav.scrolled {
 .board-card {
     text-align: center;
     padding: 25px 15px;
-    background: rgba(15, 23, 42, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    transition: var(--transition);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    transition: all 0.35s ease;
     overflow: hidden;
+    position: relative;
+}
+
+.board-card::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
 }
 
 /* Material Ripple Effect */
@@ -971,21 +1008,28 @@ body.light-theme nav.scrolled {
 }
 
 .board-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(59, 130, 246, 0.2);
-    background: rgba(15, 23, 42, 0.5);
+    transform: translateY(-6px);
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 16px 40px -10px rgba(59, 130, 246, 0.2), 0 0 0 1px rgba(59, 130, 246, 0.1);
+}
+
+.board-card:hover::before {
+    opacity: 1;
 }
 
 .board-card h4 {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
     margin-bottom: 5px;
     color: var(--text-color);
 }
 
 .role-sm {
-    color: var(--secondary);
+    color: var(--primary);
+    font-weight: 600;
     font-size: 0.85rem;
-    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .social-links a:hover {
@@ -1469,6 +1513,7 @@ footer {
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
+    aspect-ratio: 1/1;
     border: 3px solid var(--primary);
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
 }
@@ -2208,16 +2253,21 @@ footer {
         left: 0;
         width: 100%;
         flex-direction: column;
-        background: rgba(5, 5, 5, 0.95);
+        background: rgba(5, 5, 5, 0.98);
         backdrop-filter: blur(10px);
         padding: 20px 0;
-        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-        transition: var(--transition);
+        transform: translateY(-120%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.4s ease, opacity 0.4s ease;
         gap: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     .nav-links.active {
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
     }
 
     .hamburger {
@@ -2883,17 +2933,26 @@ body.light-theme .floating-card p {
     align-items: center;
     gap: 14px;
     padding: 12px 16px;
-    background: var(--glass-bg);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
     border-radius: 14px;
     cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease;
+    transition: all 0.25s ease;
     -webkit-tap-highlight-color: transparent;
+    position: relative;
+    overflow: hidden;
 }
 
 .mobile-member-row:active {
     transform: scale(0.97);
     background: rgba(59, 130, 246, 0.1);
+}
+
+.mobile-member-row:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .mobile-member-avatar {

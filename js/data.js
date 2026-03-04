@@ -149,12 +149,13 @@ const siteData = {
   team: [
     // ── Executives ──
     {
-      name: "MR. Uddhav B. Shrestha <br> --aka-- Uttam Shrestha",
+      name: "MR. Uddhav B. Shrestha",
+      nickname: "Uttam Shrestha",
       role: "President",
       type: "exec",
       avatarInitial: "U",
       gradient: "linear-gradient(135deg,#3b82f6,#8b5cf6)",
-      image: "",
+      image: "images/uttam.jpeg",
       linkedin: "#",
       github: "https://github.com/uttam-shrestha/",
       email: "uttam2066shrestha16@gmail.com",
