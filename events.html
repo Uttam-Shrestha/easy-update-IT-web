@@ -126,6 +126,19 @@
     <script src="js/sheets-config.js"></script>
     <script src="js/sheets-sync.js"></script>
     <script>
+      // ── Smart date formatter — handles ISO dates from Google Sheets ──
+      function formatDate(raw) {
+        if (!raw || raw === "Date TBA") return raw;
+        // If it already looks human-readable (contains month name), return as-is
+        if (/[a-zA-Z]/.test(raw) && !/T\d{2}:/.test(raw)) return raw;
+        // Try parsing as Date (catches ISO 8601 strings)
+        var d = new Date(raw);
+        if (isNaN(d.getTime())) return raw; // unparseable, return as-is
+        var months = ["January","February","March","April","May","June",
+                      "July","August","September","October","November","December"];
+        return months[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
+      }
+
       // ── Render events via SheetSync (falls back to data.js automatically) ──
       document.addEventListener("DOMContentLoaded", function () {
         const container = document.getElementById("events-container");
@@ -151,9 +164,9 @@
                 ? '<a href="' + (e.registrationLink || '#') + '" target="_blank" class="event-btn">Register Now</a>'
                 : '<span class="event-btn disabled">Registration Closed</span>';
 
-              // Ensure safe access
+              // Ensure safe access + smart date formatting
               const eTitle = e.title || "Untitled Event";
-              const eDate = e.date || "Date TBA";
+              const eDate = formatDate(e.date || "Date TBA");
               const eDesc = e.description || "";
               const eTime = e.time || "Time TBA";
               const eLoc = e.location || "Location TBA";
