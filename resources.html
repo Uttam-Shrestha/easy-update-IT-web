@@ -121,41 +121,44 @@
     </button>
 
     <script src="data.js"></script>
+    <script src="sheets-config.js"></script>
+    <script src="sheets-sync.js"></script>
     <script>
-      // ── Render resources from data.js ──
+      // ── Render resources via SheetSync (falls back to data.js automatically) ──
       document.addEventListener("DOMContentLoaded", function () {
         var grid = document.getElementById("resources-grid");
-        if (!grid || typeof siteData === "undefined") return;
+        if (!grid) return;
 
-        var resources = siteData.resources || [];
-        if (resources.length === 0) {
-          grid.innerHTML =
-            '<p style="text-align:center;opacity:0.7;">No resources available yet.</p>';
-          return;
-        }
+        grid.innerHTML = '<p style="text-align:center;opacity:0.5;">Loading resources...</p>';
 
-        grid.innerHTML = resources
-          .map(function (r) {
-            return (
-              '<div class="resource-card glass-panel">' +
-              '<div class="resource-icon"><i class="' +
-              r.icon +
-              '"></i></div>' +
-              '<div class="resource-info">' +
-              "<h4>" +
-              r.title +
-              "</h4>" +
-              "<p>" +
-              r.description +
-              "</p>" +
-              "</div>" +
-              '<a href="' +
-              r.downloadLink +
-              '" class="btn-icon-link"><i class="fa-solid fa-download"></i></a>' +
-              "</div>"
-            );
-          })
-          .join("");
+        window.SheetSync.load("resources", function (resources) {
+          if (!resources || resources.length === 0) {
+            grid.innerHTML =
+              '<div style="text-align:center;padding:3rem 1rem;">' +
+              '<i class="fa-regular fa-folder-open" style="font-size:3rem;opacity:0.3;margin-bottom:1rem;display:block;"></i>' +
+              '<p style="opacity:0.6;font-size:1.1rem;">No resources uploaded yet.</p>' +
+              '<p style="opacity:0.4;font-size:0.85rem;margin-top:0.5rem;">Workshop notes and guides will appear here when available.</p>' +
+              '</div>';
+            return;
+          }
+
+          grid.innerHTML = resources
+            .map(function (r) {
+              return (
+                '<div class="resource-card glass-panel">' +
+                '<div class="resource-icon"><i class="' + (r.icon || "fa-solid fa-file") + '"></i></div>' +
+                '<div class="resource-info">' +
+                "<h4>" + (r.title || "Untitled Resource") + "</h4>" +
+                "<p>" + (r.description || "") + "</p>" +
+                "</div>" +
+                (r.downloadLink && r.downloadLink !== "#" && r.downloadLink.trim() !== ""
+                  ? '<a href="' + r.downloadLink + '" target="_blank" class="btn-icon-link"><i class="fa-solid fa-download"></i></a>'
+                  : '<span class="btn-icon-link" style="opacity:0.3;cursor:default;"><i class="fa-solid fa-clock"></i></span>') +
+                "</div>"
+              );
+            })
+            .join("");
+        });
       });
     </script>
     <script src="script.js"></script>

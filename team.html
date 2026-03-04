@@ -152,216 +152,142 @@
     </button>
 
     <script src="data.js"></script>
+    <script src="sheets-config.js"></script>
+    <script src="sheets-sync.js"></script>
     <script>
-      // ── Render team from data.js ──
+      // ── Render team via SheetSync (falls back to data.js automatically) ──
       document.addEventListener("DOMContentLoaded", function () {
-        if (typeof siteData === "undefined") return;
-        var members = siteData.team || [];
 
-        var execs = members.filter(function (m) {
-          return m.type === "exec";
-        });
-        var boards = members.filter(function (m) {
-          return m.type === "board";
-        });
+        var execContainer  = document.getElementById("executive-list");
+        var boardGrid      = document.getElementById("board-grid");
+        var boardMobile    = document.getElementById("board-list-mobile");
 
-        // Render executives
-        var execContainer = document.getElementById("executive-list");
-        execContainer.innerHTML =
-          '<p class="mobile-list-label mobile-list-label--exec" style="text-align: left;">👑 Executives</p>';
-        execs.forEach(function (m) {
-          var avatarHtml = m.image
-            ? '<img src="' +
-              m.image +
-              '" class="mobile-member-avatar" style="object-fit: cover;">'
-            : '<div class="mobile-member-avatar" style="background:' +
-              m.gradient +
-              '">' +
-              m.avatarInitial +
-              "</div>";
-          execContainer.innerHTML +=
-            '<div class="mobile-member-row mobile-member-row--exec"' +
-            ' data-name="' +
-            m.name +
-            '"' +
-            ' data-role="' +
-            m.role +
-            '"' +
-            ' data-image="' +
-            (m.image || "") +
-            '"' +
-            ' data-avatar="' +
-            m.avatarInitial +
-            '"' +
-            ' data-linkedin="' +
-            (m.linkedin || "") +
-            '"' +
-            ' data-github="' +
-            (m.github || "") +
-            '"' +
-            ' data-email="' +
-            (m.email || "") +
-            '"' +
-            ' data-about="' +
-            (m.about || "") +
-            '"' +
-            ' data-skills="' +
-            (m.skills || "") +
-            '">' +
-            avatarHtml +
-            '<div class="mobile-member-info"><strong>' +
-            m.name +
-            "</strong><span>" +
-            m.role +
-            "</span></div>" +
-            '<i class="fa-solid fa-chevron-right"></i>' +
-            "</div>";
-        });
+        if (execContainer) execContainer.innerHTML = '<p style="text-align:center;opacity:0.5;">Loading team...</p>';
 
-        // Render board grid (desktop)
-        var boardGrid = document.getElementById("board-grid");
-        boardGrid.innerHTML = "";
-        boards.forEach(function (m) {
-          boardGrid.innerHTML +=
-            '<div class="board-card glass-panel"' +
-            ' data-name="' +
-            m.name +
-            '"' +
-            ' data-role="' +
-            m.role +
-            '"' +
-            ' data-image="' +
-            (m.image || "") +
-            '"' +
-            ' data-avatar="' +
-            m.avatarInitial +
-            '"' +
-            ' data-linkedin="' +
-            (m.linkedin || "") +
-            '"' +
-            ' data-github="' +
-            (m.github || "") +
-            '"' +
-            ' data-email="' +
-            (m.email || "") +
-            '"' +
-            ' data-about="' +
-            (m.about || "") +
-            '"' +
-            ' data-skills="' +
-            (m.skills || "") +
-            '">' +
-            "<h4>" +
-            m.name +
-            "</h4>" +
-            '<p class="role-sm">' +
-            m.role +
-            "</p>" +
-            "</div>";
-        });
+        window.SheetSync.load("team", function (members) {
+          var execs  = (members || []).filter(function (m) { return m.type === "exec"; });
+          var boards = (members || []).filter(function (m) { return m.type === "board"; });
 
-        // Render board mobile list
-        var boardMobile = document.getElementById("board-list-mobile");
-        boardMobile.innerHTML = "";
-        boards.forEach(function (m) {
-          var avatarHtml = m.image
-            ? '<img src="' +
-              m.image +
-              '" class="mobile-member-avatar" style="object-fit: cover;">'
-            : '<div class="mobile-member-avatar" style="background:' +
-              m.gradient +
-              '">' +
-              m.avatarInitial +
-              "</div>";
-          boardMobile.innerHTML +=
-            '<div class="mobile-member-row"' +
-            ' data-name="' +
-            m.name +
-            '"' +
-            ' data-role="' +
-            m.role +
-            '"' +
-            ' data-image="' +
-            (m.image || "") +
-            '"' +
-            ' data-avatar="' +
-            m.avatarInitial +
-            '"' +
-            ' data-linkedin="' +
-            (m.linkedin || "") +
-            '"' +
-            ' data-github="' +
-            (m.github || "") +
-            '"' +
-            ' data-email="' +
-            (m.email || "") +
-            '"' +
-            ' data-about="' +
-            (m.about || "") +
-            '"' +
-            ' data-skills="' +
-            (m.skills || "") +
-            '">' +
-            avatarHtml +
-            '<div class="mobile-member-info"><strong>' +
-            m.name +
-            "</strong><span>" +
-            m.role +
-            "</span></div>" +
-            '<i class="fa-solid fa-chevron-right"></i>' +
-            "</div>";
-        });
+          // ── Executives ──
+          if (!execContainer) { /* skip */ }
+          else if (execs.length === 0) {
+            execContainer.innerHTML =
+              '<div style="text-align:center;padding:2rem 1rem;">' +
+              '<i class="fa-solid fa-users" style="font-size:2.5rem;opacity:0.3;margin-bottom:0.75rem;display:block;"></i>' +
+              '<p style="opacity:0.6;">No executives listed yet.</p></div>';
+          } else {
+            execContainer.innerHTML = '<p class="mobile-list-label mobile-list-label--exec" style="text-align:left;">\uD83D\uDC51 Executives</p>';
+            execs.forEach(function (m) {
+              var avatarHtml = m.image
+                ? '<img src="' + m.image + '" class="mobile-member-avatar" style="object-fit:cover;">'
+                : '<div class="mobile-member-avatar" style="background:' + (m.gradient || "#3b82f6") + '">' + (m.avatarInitial || "?") + "</div>";
+              execContainer.innerHTML +=
+                '<div class="mobile-member-row mobile-member-row--exec"' +
+                ' data-name="'     + (m.name     || "") + '"' +
+                ' data-role="'     + (m.role     || "") + '"' +
+                ' data-image="'    + (m.image    || "") + '"' +
+                ' data-avatar="'   + (m.avatarInitial || "") + '"' +
+                ' data-linkedin="' + (m.linkedin || "") + '"' +
+                ' data-github="'   + (m.github   || "") + '"' +
+                ' data-email="'    + (m.email    || "") + '"' +
+                ' data-about="'    + (m.about    || "") + '"' +
+                ' data-skills="'   + (m.skills   || "") + '">' +
+                avatarHtml +
+                '<div class="mobile-member-info"><strong>' + (m.name || "?") + "</strong><span>" + (m.role || "") + "</span></div>" +
+                '<i class="fa-solid fa-chevron-right"></i>' +
+                "</div>";
+            });
+          }
 
-        // Attach click handlers for modal
-        attachModalTriggers();
+          // ── Board Desktop Grid ──
+          if (!boardGrid) { /* skip */ }
+          else if (boards.length === 0) {
+            boardGrid.innerHTML =
+              '<div style="text-align:center;padding:2rem 1rem;grid-column:1/-1;">' +
+              '<p style="opacity:0.5;">No board members listed yet.</p></div>';
+          } else {
+            boardGrid.innerHTML = "";
+            boards.forEach(function (m) {
+              boardGrid.innerHTML +=
+                '<div class="board-card glass-panel"' +
+                ' data-name="'     + (m.name     || "") + '"' +
+                ' data-role="'     + (m.role     || "") + '"' +
+                ' data-image="'    + (m.image    || "") + '"' +
+                ' data-avatar="'   + (m.avatarInitial || "") + '"' +
+                ' data-linkedin="' + (m.linkedin || "") + '"' +
+                ' data-github="'   + (m.github   || "") + '"' +
+                ' data-email="'    + (m.email    || "") + '"' +
+                ' data-about="'    + (m.about    || "") + '"' +
+                ' data-skills="'   + (m.skills   || "") + '">' +
+                "<h4>" + (m.name || "?") + "</h4>" +
+                '<p class="role-sm">' + (m.role || "") + "</p>" +
+                "</div>";
+            });
+          }
+
+          // ── Board Mobile List ──
+          if (!boardMobile) { /* skip */ }
+          else if (boards.length === 0) {
+            boardMobile.innerHTML = "";
+          } else {
+            boardMobile.innerHTML = "";
+            boards.forEach(function (m) {
+              var avatarHtml = m.image
+                ? '<img src="' + m.image + '" class="mobile-member-avatar" style="object-fit:cover;">'
+                : '<div class="mobile-member-avatar" style="background:' + (m.gradient || "#3b82f6") + '">' + (m.avatarInitial || "?") + "</div>";
+              boardMobile.innerHTML +=
+                '<div class="mobile-member-row"' +
+                ' data-name="'     + (m.name     || "") + '"' +
+                ' data-role="'     + (m.role     || "") + '"' +
+                ' data-image="'    + (m.image    || "") + '"' +
+                ' data-avatar="'   + (m.avatarInitial || "") + '"' +
+                ' data-linkedin="' + (m.linkedin || "") + '"' +
+                ' data-github="'   + (m.github   || "") + '"' +
+                ' data-email="'    + (m.email    || "") + '"' +
+                ' data-about="'    + (m.about    || "") + '"' +
+                ' data-skills="'   + (m.skills   || "") + '">' +
+                avatarHtml +
+                '<div class="mobile-member-info"><strong>' + (m.name || "?") + "</strong><span>" + (m.role || "") + "</span></div>" +
+                '<i class="fa-solid fa-chevron-right"></i>' +
+                "</div>";
+            });
+          }
+
+          // Attach modal triggers after DOM is populated
+          attachModalTriggers();
+        });
       });
 
       function attachModalTriggers() {
-        var triggers = document.querySelectorAll(
-          ".mobile-member-row, .board-card",
-        );
+        var triggers = document.querySelectorAll(".mobile-member-row, .board-card");
         triggers.forEach(function (el) {
           el.addEventListener("click", function () {
-            var name = el.dataset.name;
-            var role = el.dataset.role;
-            var image = el.dataset.image;
+            var name     = el.dataset.name;
+            var role     = el.dataset.role;
+            var image    = el.dataset.image;
             var linkedin = el.dataset.linkedin;
-            var github = el.dataset.github;
-            var email = el.dataset.email;
-            var about = el.dataset.about || "No information provided.";
-            var skills = el.dataset.skills || "—";
+            var github   = el.dataset.github;
+            var email    = el.dataset.email;
+            var about    = el.dataset.about  || "No information provided.";
+            var skills   = el.dataset.skills || "—";
 
-            document.getElementById("modal-name").innerText = name;
-            document.getElementById("modal-role").innerText = role;
-            document.getElementById("modal-about").innerText = about;
+            document.getElementById("modal-name").innerText   = name;
+            document.getElementById("modal-role").innerText   = role;
+            document.getElementById("modal-about").innerText  = about;
             document.getElementById("modal-skills").innerText = skills;
 
             var avatarImg = document.getElementById("modal-avatar");
-            if (image) {
-              avatarImg.src = image;
-            } else {
-              avatarImg.src =
-                "https://ui-avatars.com/api/?name=" +
-                encodeURIComponent(name) +
-                "&background=random&color=fff&size=128";
-            }
+            avatarImg.src = image
+              ? image
+              : "https://ui-avatars.com/api/?name=" + encodeURIComponent(name) + "&background=random&color=fff&size=128";
 
             var socialHtml = "";
-            if (linkedin)
-              socialHtml +=
-                '<a href="' +
-                linkedin +
-                '" target="_blank"><i class="fa-brands fa-linkedin"></i></a>';
-            if (github)
-              socialHtml +=
-                '<a href="' +
-                github +
-                '" target="_blank"><i class="fa-brands fa-github"></i></a>';
-            if (email)
-              socialHtml +=
-                '<a href="mailto:' +
-                email +
-                '"><i class="fa-solid fa-envelope"></i></a>';
+            if (linkedin && linkedin !== "#")
+              socialHtml += '<a href="' + linkedin + '" target="_blank"><i class="fa-brands fa-linkedin"></i></a>';
+            if (github && github !== "#")
+              socialHtml += '<a href="' + github + '" target="_blank"><i class="fa-brands fa-github"></i></a>';
+            if (email && email !== "#" && email.trim() !== "")
+              socialHtml += '<a href="mailto:' + email + '"><i class="fa-solid fa-envelope"></i></a>';
             document.getElementById("modal-social").innerHTML = socialHtml;
 
             document.getElementById("team-modal").classList.add("active");
@@ -370,7 +296,7 @@
         });
       }
 
-      // Modal close logic
+      // Modal close
       document.querySelectorAll(".modal-close").forEach(function (btn) {
         btn.addEventListener("click", function () {
           document.getElementById("team-modal").classList.remove("active");
@@ -385,5 +311,6 @@
       });
     </script>
     <script src="script.js"></script>
+
   </body>
 </html>
