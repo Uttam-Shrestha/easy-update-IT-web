@@ -34,5 +34,5 @@ const SHEETS_CONFIG = {
 
 const CHATBOT_CONFIG = {
   // ── Toggle Chatbot ON/OFF site-wide ──
-  enabled: true,
+  enabled: false,
 };
