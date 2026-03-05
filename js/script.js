@@ -10,11 +10,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 0. Preloader ---
     const preloader = document.getElementById('preloader');
     if (preloader) {
-        setTimeout(() => {
-            preloader.style.opacity = '0';
-            preloader.style.visibility = 'hidden';
-        }, 800);
+        // Instant load
+        preloader.style.display = 'none';
+
+        /* 
+        // ----------------------------------------------------
+        // IF YOU WANT TO ADD A HARDCODED DELAY LATER (e.g. 800ms)
+        // UNCOMMENT THIS BLOCK AND COMMENT THE 'display: none' ABOVE:
+        // ----------------------------------------------------
+        // preloader.style.display = 'flex';
+        // setTimeout(() => {
+        //     preloader.style.opacity = '0';
+        //     preloader.style.visibility = 'hidden';
+        //     setTimeout(() => preloader.style.display = 'none', 500); 
+        // }, 800);
+        */
     }
+
 
     // --- 0.5 Theme Toggle System ---
     const themeBtn = document.getElementById('theme-toggle');
@@ -116,21 +128,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 4. Modals Logic
-    const modalTriggers = document.querySelectorAll('.about-card, .team-card, .board-card, .project-card, #open-join-modal');
+    const modalTriggers = document.querySelectorAll('.about-card, .team-card, .board-card, .project-card, [data-modal]');
     const modals = document.querySelectorAll('.modal-overlay');
     const closeBtns = document.querySelectorAll('.modal-close');
 
     // Open Modal (standard card triggers)
     modalTriggers.forEach(trigger => {
-        trigger.addEventListener('click', () => {
+        trigger.addEventListener('click', (e) => {
+            // If it's a button/link inside the nav, we shouldn't implicitly let it jump the page
+            if (trigger.tagName === 'A') e.preventDefault();
+            
             const modalId = trigger.getAttribute('data-modal');
             const targetModal = document.getElementById(modalId);
             if (targetModal) {
                 targetModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                document.body.classList.add('modal-open');
+                document.body.style.overflow = 'hidden'; // Ensure background doesn't scroll
             }
         });
     });
+
+    // Check URL hash for modal deep-linking (e.g. from other pages clicking Join Us)
+    if (window.location.hash === '#join') {
+        const joinModal = document.getElementById('join-modal');
+        if (joinModal) {
+            joinModal.classList.add('active');
+            document.body.classList.add('modal-open');
+            document.body.style.overflow = 'hidden';
+            
+            // Clean up the URL
+            history.replaceState(null, null, window.location.pathname);
+        }
+    }
 
     // Mobile member list rows — tap to open profile modal
     document.querySelectorAll('.mobile-member-row').forEach(row => {
@@ -139,7 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetModal = document.getElementById(modalId);
             if (targetModal) {
                 targetModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                document.body.classList.add('modal-open');
+                document.body.style.overflow = 'hidden'; // Ensure background doesn't scroll
             }
         });
     });
@@ -149,15 +179,25 @@ document.addEventListener('DOMContentLoaded', () => {
         modals.forEach(modal => {
             modal.classList.remove('active');
         });
-        document.body.style.overflow = ''; // Restore scrolling
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
     };
 
-    closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
+    // Use event delegation for closing modals to catch dynamically added buttons
+    document.addEventListener('click', (e) => {
+        const closeBtn = e.target.closest('.modal-close, .lightbox-close');
+        if (closeBtn) {
+            closeModal();
+            const parentModal = closeBtn.closest('.modal-overlay');
+            if (parentModal) parentModal.classList.remove('active');
+        }
+    });
 
     // Close on outside click
     window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal-overlay')) {
             closeModal();
+            e.target.classList.remove('active');
         }
     });
 
@@ -328,6 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     joinForm.reset();
                     // Close modal
                     document.getElementById('join-modal').classList.remove('active');
+                    document.body.classList.remove('modal-open');
                 } else {
                     throw new Error('Network response was not ok.');
                 }
@@ -597,8 +638,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const backToTopBtn = document.getElementById('back-to-top');
     if (backToTopBtn) {
         window.addEventListener('scroll', () => {
-            // Show button after scrolling down 400px
-            if (window.scrollY > 400) {
+            const scrollPos = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop;
+
+            // Show button after scrolling down 300px
+            if (scrollPos > 300) {
                 backToTopBtn.classList.add('show');
             } else {
                 backToTopBtn.classList.remove('show');
