@@ -25,7 +25,7 @@
 
 const SHEETS_CONFIG = {
   // ── Change to true after pasting your URL below ──
-  enabled: false,
+  enabled: true,
 
   // ── Paste your Google Apps Script Web App URL here ──
   // It looks like: https://script.google.com/macros/s/AKfycb.../exec
