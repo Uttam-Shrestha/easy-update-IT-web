@@ -25,14 +25,9 @@
 
 const SHEETS_CONFIG = {
   // ── Change to true after pasting your URL below ──
-  enabled: true,
+  enabled: false,
 
   // ── Paste your Google Apps Script Web App URL here ──
   // It looks like: https://script.google.com/macros/s/AKfycb.../exec
   scriptUrl: "https://script.google.com/macros/s/AKfycbxkdSPWgei1gOS_fyTl4zx-5N9i_YSgGDQ7BZJ13CGTiNI2esJZTX-TQtB9uNFsp1UXkg/exec",
-};
-
-const CHATBOT_CONFIG = {
-  // ── Toggle Chatbot ON/OFF site-wide ──
-  enabled: false,
 };

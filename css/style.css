@@ -188,6 +188,8 @@ body {
     font-family: inherit;
     border: none;
     font-size: 1rem;
+    position: relative;
+    overflow: hidden;
 }
 
 .project-card.hide {
@@ -806,8 +808,10 @@ body.light-theme nav {
   .event-date-badge {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    gap: 5px;
   }
   .no-events-message {
     font-size: 1.8rem;
@@ -1270,7 +1274,6 @@ footer {
     /* Keep it within screen bounds */
     overflow-y: auto;
     /* Enable scrolling for long content */
-    overscroll-behavior: contain; /* Prevents background scroll chaining */
     border-radius: 16px;
     border: 1px solid var(--glass-border);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
@@ -1301,26 +1304,18 @@ footer {
 
 .modal-close {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 20px;
+    right: 20px;
     background: transparent;
     border: none;
-    border-radius: 50%;
     color: var(--text-muted);
     font-size: 1.5rem;
     cursor: pointer;
-    z-index: 20;
     transition: var(--transition);
 }
 
 .modal-close:hover {
     color: var(--secondary);
-    background: rgba(255, 255, 255, 0.1);
     transform: rotate(90deg);
 }
 
@@ -2275,8 +2270,8 @@ footer {
         padding: 16px 20px;
         transform: translateY(-120%);
         opacity: 0;
-        visibility: hidden;
-        transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
+        pointer-events: none;
+        transition: transform 0.4s ease, opacity 0.4s ease;
         gap: 4px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         border-bottom: 1px solid var(--glass-border);
@@ -2286,7 +2281,7 @@ footer {
     .nav-links.active {
         transform: translateY(0);
         opacity: 1;
-        visibility: visible;
+        pointer-events: all;
     }
 
     .nav-links li {
@@ -2356,13 +2351,8 @@ footer {
         display: inline-flex;
     }
 
-    .page-hero {
-        padding-top: 100px;
-    }
-
     .section {
         padding: 40px 5%;
-        padding-top: 80px;
         overflow-x: hidden;
     }
 
@@ -2799,6 +2789,25 @@ footer {
 }
 
 @media (max-width: 768px) {
+    .hero {
+        grid-template-columns: 1fr;
+        padding-top: 150px;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+
+    .hero p {
+        margin: 0 auto 30px auto;
+    }
+
+    .hero-btns {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
     .project-card {
         width: 100%;
         max-width: 400px;
@@ -2821,6 +2830,32 @@ footer {
         flex-direction: column;
         gap: 20px;
         text-align: center;
+    }
+
+    /* Make project details permanently visible on mobile */
+    .projects-grid {
+        gap: 40px;
+    }
+
+    .project-card {
+        height: auto;
+        min-height: 480px; 
+    }
+
+    .project-overlay {
+        background: linear-gradient(to top, rgba(3, 7, 18, 0.95) 40%, rgba(3, 7, 18, 0.7) 100%);
+        padding: 25px 20px;
+    }
+
+    .project-card:hover .project-overlay {
+        background: linear-gradient(to top, rgba(3, 7, 18, 0.95) 40%, rgba(3, 7, 18, 0.7) 100%);
+    }
+
+    .project-overlay p {
+        opacity: 1;
+        transform: none;
+        margin-top: 10px;
+        font-size: 0.95rem;
     }
 }
 
@@ -2953,6 +2988,40 @@ body.light-theme .floating-card p {
     .reveal,
     .reveal-stagger {
         transition-duration: 0.3s !important;
+    }
+
+    /* 7. Fix Mobile Nav Overlap */
+    .page-hero {
+        padding-top: 130px;
+    }
+    
+    .section {
+        padding-top: 100px;
+    }
+}
+
+/* Material Ripple Effect */
+.btn-primary .ripple,
+.btn-secondary .ripple {
+    position: absolute;
+    background: white;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    border-radius: 50%;
+    animation: buttonRipple 1s linear infinite;
+}
+
+@keyframes buttonRipple {
+    0% {
+        width: 0px;
+        height: 0px;
+        opacity: 0.5;
+    }
+
+    100% {
+        width: 500px;
+        height: 500px;
+        opacity: 0;
     }
 }
 
